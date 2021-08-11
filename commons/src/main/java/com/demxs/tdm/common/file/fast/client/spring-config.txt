@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+    <bean id="fastdfsPoolConfig" class="com.demxs.common.file.fast.pool.FastdfsPoolConfig">
+        <property name="maxActive" value="500" />
+        <property name="maxIdle" value="1000" />
+        <property name="maxWait" value="5000" />
+        <property name="testOnBorrow" value="true" />
+        <property name="testOnReturn" value="true" />
+        <property name="testWhileIdle" value="true" />
+    </bean>
+    <bean id="fastdfsPool" class="com.demxs.common.file.fast.pool.FastdfsPool">
+        <constructor-arg index="0" ref="fastdfsPoolConfig" />
+        <constructor-arg index="1" value="conf/fdfs_client-${vm.imp.file}.conf"
+                         type="java.lang.String" />
+    </bean>
+
+    <bean id="fileStore" class="com.demxs.common.file.impl.FastDfsFileStoreImpl">
+            <property name="fastdfsPool" ref="fastdfsPool" />
+            <property name="groupName" value="group1" />
+    </bean>
+</beans>
